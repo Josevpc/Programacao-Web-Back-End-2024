@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <p>{{message}}!</p>
+
+    <form action="/salvaruser" method="POST">
+        <label for="nome">Digite seu nome: </label>
+        <input type="text" name="nome" required>
+        <br><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <h2>Tarefas</h2>
+    <ul>
+    {{#tasks}}
+        <li>{{name}} <a href="/?tid={{id}}">edit</a> <a href="/tarefas/del/{{id}}">done</a></li>
+    {{/tasks}}
+    </ul>
+    {{#isLoggedIn}}
+    <h2>Nova tarefa</h2>
+    <form action="/tarefas" method="POST">
+        {{#task.id}}
+        <input type="hidden" name="id" value="{{.}}">
+        {{/task.id}}
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" value="{{task.name}}"/>
+        <input type="submit" value="Salvar" class="btn-primary"/>
+    </form>
+    {{/isLoggedIn}}
+    {{^isLoggedIn}}
+        <p>Você está como visitante. <a href="/login">Login</a> para adicionar tarefas.</p>
+    {{/isLoggedIn}}
+    
+    <p>{{erro}}</p>
+</body>
+</html>
